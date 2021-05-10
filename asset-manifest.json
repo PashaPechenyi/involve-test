@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/involve-test/static/css/main.477b0028.chunk.css",
+    "main.js": "/involve-test/static/js/main.03bab7e4.chunk.js",
+    "main.js.map": "/involve-test/static/js/main.03bab7e4.chunk.js.map",
+    "runtime-main.js": "/involve-test/static/js/runtime-main.4446999b.js",
+    "runtime-main.js.map": "/involve-test/static/js/runtime-main.4446999b.js.map",
+    "static/js/2.977d6815.chunk.js": "/involve-test/static/js/2.977d6815.chunk.js",
+    "static/js/2.977d6815.chunk.js.map": "/involve-test/static/js/2.977d6815.chunk.js.map",
+    "index.html": "/involve-test/index.html",
+    "precache-manifest.c9b907ebf4ad3ecc57a4f41b5e4f8b04.js": "/involve-test/precache-manifest.c9b907ebf4ad3ecc57a4f41b5e4f8b04.js",
+    "service-worker.js": "/involve-test/service-worker.js",
+    "static/css/main.477b0028.chunk.css.map": "/involve-test/static/css/main.477b0028.chunk.css.map",
+    "static/js/2.977d6815.chunk.js.LICENSE.txt": "/involve-test/static/js/2.977d6815.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.4446999b.js",
+    "static/js/2.977d6815.chunk.js",
+    "static/css/main.477b0028.chunk.css",
+    "static/js/main.03bab7e4.chunk.js"
+  ]
+}
