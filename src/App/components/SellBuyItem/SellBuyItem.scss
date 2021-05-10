@@ -1,0 +1,29 @@
+@import "../../../styles/variables";
+
+.sellbuy-item {
+  width: 50%;
+  min-width: 220px;
+  margin-bottom: 16px;
+  padding: 0 32px;
+
+  &__title {
+    margin-bottom: 36px;
+  }
+
+  &__input-block {
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__money-input {
+    width: 100%;
+    padding: 12px 40px 12px 20px;
+
+    font-size: 16px;
+    line-height: 19px;
+
+    border: 1px solid $border-color;
+    border-radius: 4px;
+  }
+}

@@ -1,0 +1,65 @@
+@import "../../../styles/variables";
+
+@keyframes loaderPosition {
+  100% {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+
+.currency-exchange {
+  position: relative;
+
+  &__opacity-block {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 200;
+
+    background-color: $bg-color-secondary;
+    opacity: 0.4;
+  }
+
+  &__sellbuy-wrapper {
+    margin: 0 -32px 20px -32px;
+
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  &__loader-wrapper {
+    position: absolute;
+    top: 50%;
+    right: 13px;
+    transform: translateY(-50%);
+
+    width: 18px;
+    height: 18px;
+
+    transform-origin: 50% 50%;
+    animation: loaderPosition 3s infinite ease-in-out;
+  }
+
+  &__button-block {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .currency-exchange {
+    &__sellbuy-wrapper {
+      margin: 0 -15px 36px -15px;
+    }
+    &__sellbuy-item {
+      padding: 0 15px;
+    }
+    &__title {
+      margin-bottom: 20px;
+    }
+  }
+}

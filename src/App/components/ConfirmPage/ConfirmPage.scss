@@ -1,0 +1,45 @@
+@import "../../../styles/variables";
+
+.details-page {
+  max-width: 460px;
+
+  &__title {
+    margin-bottom: 36px;
+  }
+
+  &__info-block {
+    width: 100%;
+    margin-bottom: 52px;
+  }
+
+  &__info-item {
+    width: 100%;
+    margin-bottom: 33px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 16px;
+    line-height: 19px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__info-title {
+    color: $text-color-secondary;
+  }
+
+  &__buttons-block {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__button {
+    margin: 0 12px;
+  }
+}
