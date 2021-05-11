@@ -95,18 +95,32 @@ function ExchangePage({
     if (!invoiceValue) base = "withdraw";
     // Если значение курса в поле изменилось после запроса новый запрос не делаем
     if (withdrawValue !== previousState.withdrawValue) {
-      base = "withdraw";
+      // Если изменилось значение withdrawValue
+      if (!withdrawValue) {
+        setInvoiceValue("");
+        return;
+      }
+
       if (
         lastRequestChanges.type === "invoice" &&
         withdrawValue === lastRequestChanges.value
       )
         return;
-    } else if (
-      invoiceValue !== previousState.invoiceValue &&
-      lastRequestChanges.type === "withdraw" &&
-      invoiceValue === lastRequestChanges.value
-    ) {
-      return;
+
+      base = "withdraw";
+    } else if (invoiceValue !== previousState.invoiceValue) {
+      // Если изменилось значение invoiceValue
+      if (!invoiceValue) {
+        setWithdrawValue("");
+        return;
+      }
+
+      if (
+        lastRequestChanges.type === "withdraw" &&
+        invoiceValue === lastRequestChanges.value
+      ) {
+        return;
+      }
     }
 
     const onLoadFunc =
