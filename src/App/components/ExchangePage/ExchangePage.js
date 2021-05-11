@@ -7,29 +7,7 @@ import SellBuyItem from "../SellBuyItem/SellBuyItem";
 
 import "./ExchangePage.scss";
 import { LOADER_SVG } from "../../constants/svgConstants";
-
-const calculationOfTheExchange = ({
-  params = {},
-  onLoadFunc = () => {},
-  setAmountFunc = () => {},
-}) => {
-  let url = new URL(`${API_BASE_URL}/payMethods/calculate`);
-  url.search = new URLSearchParams(params).toString();
-
-  onLoadFunc(true);
-
-  fetch(url, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((data) => data.json())
-    .then(({ amount }) => {
-      onLoadFunc(false);
-      setAmountFunc(amount);
-    });
-};
+import usePrevious from "../../hooks/usePrevious";
 
 function ExchangePage({
   activeInvoiceMethod,
@@ -85,6 +63,9 @@ function ExchangePage({
   const [isInvoiceLoad, setIsInvoiceLoad] = useState(false);
   const [isWithdrawLoad, setIsWithdrawLoad] = useState(false);
 
+  // Поле для сравнения предыдущего результата запроса
+  // (чтобы не создавался новый запрос после обновления количества валюты)
+  const [lastRequestChanges, setLastRequestChanges] = useState({});
   // Меняем поля курса валюты при изменении количества валюты
   const onInputChange = ({ target: { value, name } }) => {
     if (name === "invoice") {
@@ -92,27 +73,14 @@ function ExchangePage({
     } else if (name === "withdraw") {
       setWithdrawValue(value);
     }
-
-    if (!activeInvoiceMethod.id || !activeWithdrawMethod.id) return;
-    const setAmountFunc =
-      name === "invoice" ? setWithdrawValue : setInvoiceValue;
-    if (!value) {
-      setAmountFunc("");
-      return;
-    }
-
-    const onLoadFunc =
-      name === "invoice" ? setIsWithdrawLoad : setIsInvoiceLoad;
-    const params = {
-      base: name,
-      amount: +value,
-      invoicePayMethod: activeInvoiceMethod.id,
-      withdrawPayMethod: activeWithdrawMethod.id,
-    };
-
-    calculationOfTheExchange({ params, onLoadFunc, setAmountFunc });
   };
 
+  const previousState = usePrevious({
+    activeInvoiceMethodId: activeInvoiceMethod.id,
+    activeWithdrawMethodId: activeWithdrawMethod.id,
+    invoiceValue,
+    withdrawValue,
+  });
   // Пересчитываем курс валюты при изменении типа валюты
   useEffect(() => {
     if (
@@ -122,22 +90,70 @@ function ExchangePage({
     )
       return;
 
+    let base = "invoice";
     //  Если поле SELL пустое а BUY нет то просчитываем поле SELL
-    //  В других случаях всегда пересчитываем поле BUY
-    const onLoadFunc = invoiceValue ? setIsWithdrawLoad : setIsInvoiceLoad;
-    const setAmountFunc = invoiceValue ? setWithdrawValue : setInvoiceValue;
+    if (!invoiceValue) base = "withdraw";
+    // Если значение курса в поле изменилось после запроса новый запрос не делаем
+    if (withdrawValue !== previousState.withdrawValue) {
+      base = "withdraw";
+      if (
+        lastRequestChanges.type === "invoice" &&
+        withdrawValue === lastRequestChanges.value
+      )
+        return;
+    } else if (
+      invoiceValue !== previousState.invoiceValue &&
+      lastRequestChanges.type === "withdraw" &&
+      invoiceValue === lastRequestChanges.value
+    ) {
+      return;
+    }
+
+    const onLoadFunc =
+      base === "invoice" ? setIsWithdrawLoad : setIsInvoiceLoad;
+    const setAmountFunc =
+      base === "invoice" ? setWithdrawValue : setInvoiceValue;
     const params = {
-      base: invoiceValue ? "withdraw" : "invoice",
-      amount: invoiceValue ? +invoiceValue : +withdrawValue,
+      base,
+      amount: base === "invoice" ? +invoiceValue : +withdrawValue,
       invoicePayMethod: activeInvoiceMethod.id,
       withdrawPayMethod: activeWithdrawMethod.id,
     };
-    calculationOfTheExchange({
-      params,
-      onLoadFunc,
-      setAmountFunc,
-    });
-  }, [activeInvoiceMethod.id, activeWithdrawMethod.id]);
+
+    let url = new URL(`${API_BASE_URL}/payMethods/calculate`);
+    url.search = new URLSearchParams(params).toString();
+
+    onLoadFunc(true);
+
+    let controller = new AbortController();
+    fetch(url, {
+      method: "GET",
+      signal: controller.signal,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((data) => data.json())
+      .then(({ amount }) => {
+        onLoadFunc(false);
+        setLastRequestChanges({ type: base, value: amount });
+        setAmountFunc(amount);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+
+    // обрываем запрос
+    return () => {
+      onLoadFunc(false);
+      controller.abort();
+    };
+  }, [
+    activeInvoiceMethod.id,
+    activeWithdrawMethod.id,
+    invoiceValue,
+    withdrawValue,
+  ]);
 
   const sellbuyItems = [
     {
