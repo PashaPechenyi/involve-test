@@ -25,7 +25,7 @@ function SellBuyItem({
         onItemClick={onItemClick}
       />
 
-      <div className="sellbuy-iteme__input-block">
+      <div className="sellbuy-item__input-block">
         <input
           type="number"
           name={inputName}
