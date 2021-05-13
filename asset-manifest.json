@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/involve-test/static/css/main.477b0028.chunk.css",
-    "main.js": "/involve-test/static/js/main.f1ee3ef5.chunk.js",
-    "main.js.map": "/involve-test/static/js/main.f1ee3ef5.chunk.js.map",
+    "main.js": "/involve-test/static/js/main.8cabdc4c.chunk.js",
+    "main.js.map": "/involve-test/static/js/main.8cabdc4c.chunk.js.map",
     "runtime-main.js": "/involve-test/static/js/runtime-main.4446999b.js",
     "runtime-main.js.map": "/involve-test/static/js/runtime-main.4446999b.js.map",
     "static/js/2.977d6815.chunk.js": "/involve-test/static/js/2.977d6815.chunk.js",
     "static/js/2.977d6815.chunk.js.map": "/involve-test/static/js/2.977d6815.chunk.js.map",
     "index.html": "/involve-test/index.html",
-    "precache-manifest.9905c2dced6c59103a02af9a4e3875c4.js": "/involve-test/precache-manifest.9905c2dced6c59103a02af9a4e3875c4.js",
+    "precache-manifest.16fdbadaa2a888ca860bd185ce2d8d96.js": "/involve-test/precache-manifest.16fdbadaa2a888ca860bd185ce2d8d96.js",
     "service-worker.js": "/involve-test/service-worker.js",
     "static/css/main.477b0028.chunk.css.map": "/involve-test/static/css/main.477b0028.chunk.css.map",
     "static/js/2.977d6815.chunk.js.LICENSE.txt": "/involve-test/static/js/2.977d6815.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.4446999b.js",
     "static/js/2.977d6815.chunk.js",
     "static/css/main.477b0028.chunk.css",
-    "static/js/main.f1ee3ef5.chunk.js"
+    "static/js/main.8cabdc4c.chunk.js"
   ]
 }
