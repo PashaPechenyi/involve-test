@@ -84,6 +84,7 @@ function ExchangePage({
   // Пересчитываем курс валюты при изменении типа валюты
   useEffect(() => {
     if (
+      !previousState ||
       !activeInvoiceMethod.id ||
       !activeWithdrawMethod.id ||
       (!invoiceValue && !withdrawValue)
@@ -169,6 +170,17 @@ function ExchangePage({
     withdrawValue,
   ]);
 
+  const buttonFunc = () => {
+    if (
+      !activeInvoiceMethod.id ||
+      !activeWithdrawMethod.id ||
+      (!invoiceValue && !withdrawValue)
+    )
+      return;
+
+    setActivePage(2);
+  };
+
   const sellbuyItems = [
     {
       inputName: "invoice",
@@ -212,12 +224,7 @@ function ExchangePage({
       </div>
 
       <div className="currency-exchange__button-block">
-        <button
-          onClick={() => {
-            setActivePage(2);
-          }}
-          className="exchange__main-button"
-        >
+        <button onClick={buttonFunc} className="exchange__main-button">
           {showOpacityBlock ? (
             <span className="exchange__loader-animation">{LOADER_SVG}</span>
           ) : (
